@@ -67,7 +67,38 @@
     - From scripts.yml use the script 1 to create the secretes in the Secretes Manager by using the AWS CLI.
     - [Reference](https://docs.aws.amazon.com/cli/latest/reference/secretsmanager/create-secret.html)
 - **Task 5: Provisioning a new instance for the web server**
-    - reate a new virtual machine to host the web application.
-    - To install the required web application on the virtual machine, use the JavaScript code from the following link:
+    - create a new virtual machine to host the web application.
+    - To install the required web application on the virtual machine, use the userdata_phase3.sh
+    - For the AWS Identity and Access Management (IAM) profile on the EC2 instance, attach the existing LabInstanceProfile profile. This profile attaches an IAM role called LabRole to          the instance so that it can fetch the secret securely.
+    - Note: Optionally, you can continue to use the existing virtual machine for the web application. However, you will need to reconfigure the application to connect to Amazon RDS.
+- **Task 6: Migrating the database**
+    - Migrate the data from the original database, which is on an EC2 instance, to the new Amazon RDS database.
+
+    - Use Script-3 from the AWS Cloud9 Scripts file (cloud9-scripts.yml) to migrate the original data into the Amazon RDS database. Recall that you used a script from this file earlier 
+      to create the secret in Secrets Manager.
+- **Task 7: Testing the application**
+  - Access the application and perform a few tasks to test it. For example, view, add, delete, and modify student records.
+### Phase 4: Implementing high availability and scalability
+- The objective is to use the key components that you created in earlier phases to build a scalable and highly available architecture.
+- **Task 1: Creating an Application Load Balancer**
+    - Launch a load balancer. The endpoint will be used to access your web application.
+    - Tip: Use a minimum of two Availability Zones.
+- **Task 2: Implementing Amazon EC2 Auto Scaling**
+    - Create a new launch template, and use an Auto Scaling group to launch the EC2 instances that host the web application.
+
+    - To accomplish this, you can create an AMI from the running instance, or create a new AMI and install the necessary packages and application code. Then, configure an Auto Scaling 
+      group to use the load balancer.
+    - Use a Target tracking policy.
+    - Set the Auto scaling group size according to your estimated requirements.
+    - You can use the default values (for example, for group size and CPU utilization) initially and then adjust them later as needed.
+- **Task 3: Accessing the application**
+    - Access the application and perform a few tasks to test it. For example, view, add, delete, and modify student records.
+- **Task 4: Load testing the application**
+    - Perform a load test on the application to monitor scaling. 
+
+    - Use Script-2 from the AWS Cloud9 Scripts file (scripts.yml) to perform the load test. Recall that you used scripts from this file in previous tasks.
+    - Access the web application from the browser by using the load balancer URL.
+    - Use AWS Cloud9 to run the load testing scripts against the load balancer.
+    - [Load Test Reference](https://github.com/alexfernandez/loadtest)
 
                               
